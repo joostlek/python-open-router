@@ -12,10 +12,7 @@ from aiohttp import ClientError, ClientResponseError, ClientSession
 from aiohttp.hdrs import METH_GET
 from yarl import URL
 
-from python_open_router.exceptions import (
-    OpenRouterAuthenticationError,
-    OpenRouterConnectionError,
-)
+from python_open_router.exceptions import OpenRouterConnectionError
 from python_open_router.models import KeyData, KeyDataWrapper
 
 if TYPE_CHECKING:
@@ -75,7 +72,6 @@ class OpenRouterClient:
         ) as exception:
             msg = "Error occurred while communicating with the service"
             raise OpenRouterConnectionError(msg) from exception
-
 
         return await response.text()
 
