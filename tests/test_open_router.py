@@ -3,24 +3,20 @@
 from __future__ import annotations
 
 import asyncio
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 import aiohttp
 from aiohttp import ClientError
-from aiohttp.hdrs import METH_GET, METH_POST
 from aioresponses import CallbackResult, aioresponses
 import pytest
 
 from python_open_router import (
     OpenRouterClient,
-    OpenRouterError,
     OpenRouterConnectionError,
+    OpenRouterError,
 )
 from tests import load_fixture
-from tests.const import HEADERS, MOCK_URL
-
-if TYPE_CHECKING:
-    from syrupy import SnapshotAssertion
+from tests.const import MOCK_URL
 
 
 async def test_putting_in_own_session(
@@ -112,4 +108,3 @@ async def test_client_error(
     )
     with pytest.raises(OpenRouterConnectionError):
         await client.get_key_data()
-

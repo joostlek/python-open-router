@@ -2,23 +2,21 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import date, datetime  # noqa: TC003
-from enum import IntEnum, IntFlag, StrEnum
-from typing import Annotated
+from dataclasses import dataclass
 
-from mashumaro import field_options
 from mashumaro.mixins.orjson import DataClassORJSONMixin
-from mashumaro.types import Discriminator
 
 
 @dataclass
 class KeyDataWrapper(DataClassORJSONMixin):
+    """Wrapper for OpenRouter key data."""
 
     data: KeyData
 
+
 @dataclass
 class KeyData(DataClassORJSONMixin):
+    """The OpenRouter key data."""
 
     label: str
     usage: int
