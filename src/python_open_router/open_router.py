@@ -76,18 +76,6 @@ class OpenRouterClient:
             msg = "Error occurred while communicating with the service"
             raise OpenRouterConnectionError(msg) from exception
 
-        if response.status == 403:
-            msg = "Invalid API key"
-            raise OpenRouterAuthenticationError(msg)
-
-        if response.status >= 400:
-            content_type = response.headers.get("Content-Type", "")
-            text = await response.text()
-            msg = "Unexpected response from OpenRouter"
-            raise OpenRouterConnectionError(
-                msg,
-                {"Content-Type": content_type, "response": text},
-            )
 
         return await response.text()
 
