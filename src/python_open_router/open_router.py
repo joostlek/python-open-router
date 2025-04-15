@@ -6,16 +6,13 @@ import asyncio
 from dataclasses import dataclass
 from importlib import metadata
 import socket
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any
 
 from aiohttp import ClientError, ClientResponseError, ClientSession
-from aiohttp.hdrs import METH_GET, METH_POST
+from aiohttp.hdrs import METH_GET
 from yarl import URL
 
-from python_open_router.exceptions import (
-    OpenRouterConnectionError,
-    OpenRouterAuthenticationError,
-)
+from python_open_router.exceptions import OpenRouterConnectionError
 from python_open_router.models import KeyData, KeyDataWrapper
 
 if TYPE_CHECKING:
@@ -24,6 +21,7 @@ if TYPE_CHECKING:
 
 VERSION = metadata.version(__package__)
 HOST = "openrouter.ai"
+
 
 @dataclass
 class OpenRouterClient:
@@ -43,9 +41,7 @@ class OpenRouterClient:
         data: dict[str, Any] | None = None,
     ) -> str:
         """Handle a request to OpenRouter."""
-        url = URL.build(
-            host=HOST, scheme="https"
-        ).joinpath(f"api/v1/{uri}")
+        url = URL.build(host=HOST, scheme="https").joinpath(f"api/v1/{uri}")
 
         headers = {
             "User-Agent": f"PythonOpenRouter/{VERSION}",
@@ -76,10 +72,6 @@ class OpenRouterClient:
         ) as exception:
             msg = "Error occurred while communicating with the service"
             raise OpenRouterConnectionError(msg) from exception
-
-        if response.status == 403:
-            msg = "Invalid API key"
-            raise OpenRouterAuthenticationError(msg)
 
         if response.status >= 400:
             content_type = response.headers.get("Content-Type", "")
