@@ -1,0 +1,22 @@
+# serializer version: 1
+# name: test_data_retrieval[get_key_data]
+  dict({
+    'is_free_tier': False,
+    'is_provisioning_key': True,
+    'label': 'sk-or-v1-97c...5bf',
+    'limit_remaining': None,
+    'usage': 0,
+  })
+# ---
+# name: test_data_retrieval[get_keys]
+  list([
+    dict({
+      'disabled': False,
+      'hash': 'abcabcabcbababcbabcabcabc',
+      'label': 'sk-or-v1-f43...190',
+      'limit': 5,
+      'name': 'Home Assistant',
+      'usage': 0,
+    }),
+  ])
+# ---

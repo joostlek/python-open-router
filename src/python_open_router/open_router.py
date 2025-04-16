@@ -13,7 +13,7 @@ from aiohttp.hdrs import METH_GET
 from yarl import URL
 
 from python_open_router.exceptions import OpenRouterConnectionError
-from python_open_router.models import KeyData, KeyDataWrapper
+from python_open_router.models import Key, KeyData, KeyDataWrapper, KeysDataWrapper
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -88,6 +88,11 @@ class OpenRouterClient:
         """Get key data for API key."""
         response = await self._request(METH_GET, "key")
         return KeyDataWrapper.from_json(response).data
+
+    async def get_keys(self) -> list[Key]:
+        """Get all keys."""
+        response = await self._request(METH_GET, "keys")
+        return KeysDataWrapper.from_json(response).data
 
     async def close(self) -> None:
         """Close open client session."""

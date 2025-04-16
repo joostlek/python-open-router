@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import aiohttp
 from aiohttp import ClientError
+from aiohttp.hdrs import METH_GET
 from aioresponses import CallbackResult, aioresponses
 import pytest
 
@@ -16,7 +17,10 @@ from python_open_router import (
     OpenRouterError,
 )
 from tests import load_fixture
-from tests.const import MOCK_URL
+from tests.const import HEADERS, MOCK_URL
+
+if TYPE_CHECKING:
+    from syrupy import SnapshotAssertion
 
 
 async def test_putting_in_own_session(
@@ -108,3 +112,38 @@ async def test_client_error(
     )
     with pytest.raises(OpenRouterConnectionError):
         await client.get_key_data()
+
+
+@pytest.mark.parametrize(
+    ("endpoint", "fixture", "method"),
+    [
+        ("key", "key.json", "get_key_data"),
+        ("keys", "keys.json", "get_keys"),
+    ],
+    ids=[
+        "get_key_data",
+        "get_keys",
+    ],
+)
+async def test_data_retrieval(
+    responses: aioresponses,
+    client: OpenRouterClient,
+    snapshot: SnapshotAssertion,
+    endpoint: str,
+    fixture: str,
+    method: str,
+) -> None:
+    """Test data retrieval."""
+    responses.get(
+        f"{MOCK_URL}/{endpoint}",
+        status=200,
+        body=load_fixture(fixture),
+    )
+    assert await getattr(client, method)() == snapshot
+    responses.assert_called_once_with(
+        f"{MOCK_URL}/{endpoint}",
+        METH_GET,
+        headers=HEADERS,
+        params=None,
+        json=None,
+    )
