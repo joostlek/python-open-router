@@ -1,4 +1,26 @@
 # serializer version: 1
+# name: test_create_key[kwargs0]
+  dict({
+    'disabled': True,
+    'hash': 'hash',
+    'key': 'key',
+    'label': 'label',
+    'limit': 1.1,
+    'name': 'name',
+    'usage': 0.0,
+  })
+# ---
+# name: test_create_key[kwargs1]
+  dict({
+    'disabled': True,
+    'hash': 'hash',
+    'key': 'key',
+    'label': 'label',
+    'limit': 1.1,
+    'name': 'name',
+    'usage': 0.0,
+  })
+# ---
 # name: test_data_retrieval[get_key_data]
   dict({
     'is_free_tier': False,
@@ -14,9 +36,9 @@
       'disabled': False,
       'hash': 'abcabcabcbababcbabcabcabc',
       'label': 'sk-or-v1-f43...190',
-      'limit': 5,
+      'limit': 5.0,
       'name': 'Home Assistant',
-      'usage': 0,
+      'usage': 1.0,
     }),
   ])
 # ---
