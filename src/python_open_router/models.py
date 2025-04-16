@@ -23,3 +23,22 @@ class KeyData(DataClassORJSONMixin):
     is_provisioning_key: bool
     limit_remaining: int | None
     is_free_tier: bool
+
+
+@dataclass
+class KeysDataWrapper(DataClassORJSONMixin):
+    """Wrapper for OpenRouter key data."""
+
+    data: list[Key]
+
+
+@dataclass
+class Key(DataClassORJSONMixin):
+    """The OpenRouter key data."""
+
+    hash: str
+    name: str
+    label: str
+    disabled: bool
+    limit: int
+    usage: int
