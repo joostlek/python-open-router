@@ -9,11 +9,17 @@ import socket
 from typing import TYPE_CHECKING, Any
 
 from aiohttp import ClientError, ClientResponseError, ClientSession
-from aiohttp.hdrs import METH_GET
+from aiohttp.hdrs import METH_GET, METH_POST
 from yarl import URL
 
 from python_open_router.exceptions import OpenRouterConnectionError
-from python_open_router.models import Key, KeyData, KeyDataWrapper, KeysDataWrapper
+from python_open_router.models import (
+    CreateKeyDataWrapper,
+    Key,
+    KeyData,
+    KeyDataWrapper,
+    KeysDataWrapper,
+)
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -93,6 +99,15 @@ class OpenRouterClient:
         """Get all keys."""
         response = await self._request(METH_GET, "keys")
         return KeysDataWrapper.from_json(response).data
+
+    async def create_key(self, name: str, limit: float | None = None) -> Key:
+        """Create a new key."""
+        data: dict[str, Any] = {"name": name}
+        if limit is not None:
+            data["limit"] = limit
+
+        response = await self._request(METH_POST, "keys", data=data)
+        return CreateKeyDataWrapper.from_json(response).data
 
     async def close(self) -> None:
         """Close open client session."""

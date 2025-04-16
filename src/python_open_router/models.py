@@ -33,6 +33,13 @@ class KeysDataWrapper(DataClassORJSONMixin):
 
 
 @dataclass
+class CreateKeyDataWrapper(DataClassORJSONMixin):
+    """Wrapper for OpenRouter key data."""
+
+    data: CreatedKey
+
+
+@dataclass
 class Key(DataClassORJSONMixin):
     """The OpenRouter key data."""
 
@@ -40,5 +47,12 @@ class Key(DataClassORJSONMixin):
     name: str
     label: str
     disabled: bool
-    limit: int
-    usage: int
+    limit: float
+    usage: float = 0.0
+
+
+@dataclass(kw_only=True)
+class CreatedKey(Key):
+    """Created key."""
+
+    key: str

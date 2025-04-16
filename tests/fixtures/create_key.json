@@ -1,0 +1,12 @@
+{
+  "data": {
+    "name": "name",
+    "label": "label",
+    "limit": 1.1,
+    "disabled": true,
+    "created_at": "created_at",
+    "updated_at": "updated_at",
+    "hash": "hash",
+    "key": "key"
+  }
+}

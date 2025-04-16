@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 
 import aiohttp
 from aiohttp import ClientError
-from aiohttp.hdrs import METH_GET
+from aiohttp.hdrs import METH_GET, METH_POST
 from aioresponses import CallbackResult, aioresponses
 import pytest
 
@@ -146,4 +146,33 @@ async def test_data_retrieval(
         headers=HEADERS,
         params=None,
         json=None,
+    )
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"name": "name", "limit": 5.0},
+        {"name": "name"},
+    ],
+)
+async def test_create_key(
+    responses: aioresponses,
+    client: OpenRouterClient,
+    snapshot: SnapshotAssertion,
+    kwargs: dict[str, Any],
+) -> None:
+    """Test creating a key."""
+    responses.post(
+        f"{MOCK_URL}/keys",
+        status=200,
+        body=load_fixture("create_key.json"),
+    )
+    assert await client.create_key(**kwargs) == snapshot
+    responses.assert_called_once_with(
+        f"{MOCK_URL}/keys",
+        METH_POST,
+        headers=HEADERS,
+        params=None,
+        json=kwargs,
     )
