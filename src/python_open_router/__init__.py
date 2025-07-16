@@ -12,6 +12,11 @@ from python_open_router.models import (
     KeyData,
     KeyDataWrapper,
     KeysDataWrapper,
+    Modality,
+    Model,
+    ModelArchitecture,
+    ModelsDataWrapper,
+    SupportedParameter,
 )
 from python_open_router.open_router import OpenRouterClient
 
@@ -22,8 +27,13 @@ __all__ = [
     "KeyData",
     "KeyDataWrapper",
     "KeysDataWrapper",
+    "Modality",
+    "Model",
+    "ModelArchitecture",
+    "ModelsDataWrapper",
     "OpenRouterAuthenticationError",
     "OpenRouterClient",
     "OpenRouterConnectionError",
     "OpenRouterError",
+    "SupportedParameter",
 ]

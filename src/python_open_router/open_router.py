@@ -19,6 +19,8 @@ from python_open_router.models import (
     KeyData,
     KeyDataWrapper,
     KeysDataWrapper,
+    Model,
+    ModelsDataWrapper,
 )
 
 if TYPE_CHECKING:
@@ -108,6 +110,11 @@ class OpenRouterClient:
 
         response = await self._request(METH_POST, "keys", data=data)
         return CreateKeyDataWrapper.from_json(response).data
+
+    async def get_models(self) -> list[Model]:
+        """Get all available models."""
+        response = await self._request(METH_GET, "models")
+        return ModelsDataWrapper.from_json(response).data
 
     async def close(self) -> None:
         """Close open client session."""
