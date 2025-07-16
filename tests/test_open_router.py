@@ -119,10 +119,12 @@ async def test_client_error(
     [
         ("key", "key.json", "get_key_data"),
         ("keys", "keys.json", "get_keys"),
+        ("models", "models.json", "get_models"),
     ],
     ids=[
         "get_key_data",
         "get_keys",
+        "get_models",
     ],
 )
 async def test_data_retrieval(

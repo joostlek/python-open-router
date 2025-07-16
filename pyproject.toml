@@ -55,6 +55,7 @@ Changelog = "https://github.com/joostlek/python-open-router/releases"
 
 [tool.coverage.report]
 show_missing = true
+fail_under = 50
 
 [tool.coverage.run]
 plugins = ["covdefaults"]
