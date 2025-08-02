@@ -99,6 +99,7 @@ class SupportedParameter(StrEnum):
 class Modality(StrEnum):
     """Supported modalities for models."""
 
+    AUDIO = "audio"
     TEXT = "text"
     IMAGE = "image"
     FILE = "file"
