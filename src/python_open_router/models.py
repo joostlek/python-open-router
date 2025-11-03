@@ -103,6 +103,7 @@ class Modality(StrEnum):
     TEXT = "text"
     IMAGE = "image"
     FILE = "file"
+    EMBEDDINGS = "embeddings"
 
 
 @dataclass(kw_only=True)
