@@ -104,6 +104,7 @@ class Modality(StrEnum):
     IMAGE = "image"
     FILE = "file"
     EMBEDDINGS = "embeddings"
+    VIDEO = "video"
 
 
 @dataclass(kw_only=True)
