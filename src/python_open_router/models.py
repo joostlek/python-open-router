@@ -106,26 +106,6 @@ class Modality(StrEnum):
     EMBEDDINGS = "embeddings"
     VIDEO = "video"
 
-    @classmethod
-    def _missing_(cls, value):
-        if value is None:
-            raise ValueError("Modality missing")
-        v = str(value).strip().lower()
-        map_table = {
-            "file": cls.FILE,
-            "files": cls.FILE,
-            "audio": cls.AUDIO,
-            "sound": cls.AUDIO,
-            "video": cls.VIDEO,
-            "vid": cls.VIDEO,
-            "text": cls.TEXT,
-            "image": cls.IMAGE,
-            "img": cls.IMAGE,
-        }
-        if v in map_table:
-            return map_table[v]
-        raise ValueError(f"Unknown modality: {value!r}")
-
 
 @dataclass(kw_only=True)
 class ModelArchitecture(DataClassORJSONMixin):
