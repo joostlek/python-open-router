@@ -141,6 +141,8 @@ ignore = [
   "D213", # Conflicts with other rules
   "D417", # False positives in some occasions
   "ISC001", # Conflicts with other rules
+  "PLR0912", # Too many branches - legitimate for API client methods
+  "PLR0913", # Too many arguments - legitimate for API client methods
   "PLR2004", # Just annoying, not really useful
 ]
 select = ["ALL"]

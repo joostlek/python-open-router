@@ -6,9 +6,17 @@
         "is_provisioning_key": true,
         "limit_remaining": null,
         "is_free_tier": false,
-        "rate_limit": {
-            "requests": 50,
-            "interval": "10s"
-        }
+        "is_management_key": false,
+        "usage_daily": 0,
+        "usage_weekly": 0,
+        "usage_monthly": 0,
+        "byok_usage": 0,
+        "byok_usage_daily": 0,
+        "byok_usage_weekly": 0,
+        "byok_usage_monthly": 0,
+        "include_byok_in_limit": false,
+        "limit_reset": null,
+        "expires_at": null,
+        "creator_user_id": "user_abc123"
     }
 }
