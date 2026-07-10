@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import asyncio
+import re
 from typing import TYPE_CHECKING, Any
 
 import aiohttp
 from aiohttp import ClientError
-from aiohttp.hdrs import METH_GET, METH_POST
+from aiohttp.hdrs import METH_DELETE, METH_GET, METH_PATCH, METH_POST
 from aioresponses import CallbackResult, aioresponses
 import pytest
 
@@ -178,3 +179,146 @@ async def test_create_key(
         params=None,
         json=kwargs,
     )
+
+
+async def test_delete_key(
+    responses: aioresponses,
+    client: OpenRouterClient,
+) -> None:
+    """Test deleting a key."""
+    responses.delete(
+        f"{MOCK_URL}/keys/abcabcabcbababcbabcabcabc",
+        status=200,
+        body=load_fixture("delete_key.json"),
+    )
+    result = await client.delete_key("abcabcabcbababcbabcabcabc")
+    assert result is True
+    responses.assert_called_once_with(
+        f"{MOCK_URL}/keys/abcabcabcbababcbabcabcabc",
+        METH_DELETE,
+        headers=HEADERS,
+        params=None,
+        json=None,
+    )
+
+
+async def test_get_key(
+    responses: aioresponses,
+    client: OpenRouterClient,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test getting a single key."""
+    responses.get(
+        f"{MOCK_URL}/keys/abcabcabcbababcbabcabcabc",
+        status=200,
+        body=load_fixture("get_key.json"),
+    )
+    assert await client.get_key("abcabcabcbababcbabcabcabc") == snapshot
+    responses.assert_called_once_with(
+        f"{MOCK_URL}/keys/abcabcabcbababcbabcabcabc",
+        METH_GET,
+        headers=HEADERS,
+        params=None,
+        json=None,
+    )
+
+
+async def test_update_key(
+    responses: aioresponses,
+    client: OpenRouterClient,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test updating a key."""
+    responses.patch(
+        f"{MOCK_URL}/keys/abcabcabcbababcbabcabcabc",
+        status=200,
+        body=load_fixture("get_key.json"),
+    )
+    assert (
+        await client.update_key(
+            "abcabcabcbababcbabcabcabc", name="New Name", disabled=True
+        )
+        == snapshot
+    )
+    responses.assert_called_once_with(
+        f"{MOCK_URL}/keys/abcabcabcbababcbabcabcabc",
+        METH_PATCH,
+        headers=HEADERS,
+        params=None,
+        json={"name": "New Name", "disabled": True},
+    )
+
+
+async def test_get_model(
+    responses: aioresponses,
+    client: OpenRouterClient,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test getting a single model."""
+    responses.get(
+        f"{MOCK_URL}/model/amazon/nova-premier-v1",
+        status=200,
+        body=load_fixture("single_model.json"),
+    )
+    assert await client.get_model("amazon", "nova-premier-v1") == snapshot
+    responses.assert_called_once_with(
+        f"{MOCK_URL}/model/amazon/nova-premier-v1",
+        METH_GET,
+        headers=HEADERS,
+        params=None,
+        json=None,
+    )
+
+
+async def test_count_models(
+    responses: aioresponses,
+    client: OpenRouterClient,
+) -> None:
+    """Test counting models."""
+    responses.get(
+        f"{MOCK_URL}/models/count",
+        status=200,
+        body='{"data": {"count": 100}}',
+    )
+    result = await client.count_models()
+    assert result == 100
+    responses.assert_called_once_with(
+        f"{MOCK_URL}/models/count",
+        METH_GET,
+        headers=HEADERS,
+        params=None,
+        json=None,
+    )
+
+
+async def test_get_models_with_filters(
+    responses: aioresponses,
+    client: OpenRouterClient,
+) -> None:
+    """Test getting models with filter parameters."""
+    responses.get(
+        re.compile(r"https://openrouter\.ai/api/v1/models\?.*"),
+        status=200,
+        body=load_fixture("models.json"),
+    )
+    await client.get_models(
+        sort="most-popular",
+        q="gpt",
+        min_price=0.0,
+        max_price=10.0,
+    )
+    responses.assert_called_once()  # type: ignore[no-untyped-call]
+
+
+async def test_get_keys_with_filters(
+    responses: aioresponses,
+    client: OpenRouterClient,
+) -> None:
+    """Test getting keys with filter parameters."""
+    responses.get(
+        re.compile(r"https://openrouter\.ai/api/v1/keys\?.*"),
+        status=200,
+        body=load_fixture("keys.json"),
+    )
+    await client.get_keys(include_disabled=True, offset=10)
+    responses.assert_called_once()  # type: ignore[no-untyped-call]

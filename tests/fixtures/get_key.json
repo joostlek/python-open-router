@@ -1,14 +1,14 @@
 {
     "data": {
         "hash": "abcabcabcbababcbabcabcabc",
-        "name": "name",
-        "label": "label",
-        "disabled": true,
-        "limit": 1.1,
-        "limit_remaining": 1.1,
+        "name": "Home Assistant",
+        "label": "sk-or-v1-f43...190",
+        "disabled": false,
+        "limit": 5,
+        "limit_remaining": 4,
         "limit_reset": null,
         "include_byok_in_limit": false,
-        "usage": 0,
+        "usage": 1,
         "usage_daily": 0,
         "usage_weekly": 0,
         "usage_monthly": 0,
@@ -17,10 +17,9 @@
         "byok_usage_weekly": 0,
         "byok_usage_monthly": 0,
         "created_at": "2025-04-15T15:41:46Z",
-        "updated_at": null,
+        "updated_at": "2025-04-15T18:33:52Z",
         "expires_at": null,
         "creator_user_id": "user_abc123",
         "workspace_id": "ws-abc123"
-    },
-    "key": "sk-or-v1-testkey123456789abcdef"
+    }
 }
