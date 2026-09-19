@@ -42,7 +42,7 @@ pylint = "4.0.8"
 pytest = "9.1.1"
 pytest-asyncio = "1.4.0"
 pytest-cov = "7.1.0"
-ruff = "0.15.22"
+ruff = "0.16.8"
 safety = "3.8.1"
 yamllint = "1.38.0"
 syrupy = "6.1.1"
@@ -137,12 +137,14 @@ asyncio_mode = "auto"
 ignore = [
   "ANN401", # Opinioated warning on disallowing dynamically typed expressions
   "COM812", # Conflicts with other rules
+  "CPY001", # No copyright notices used in this project
   "D203", # Conflicts with other rules
   "D213", # Conflicts with other rules
   "D417", # False positives in some occasions
   "ISC001", # Conflicts with other rules
   "PLR0912", # Too many branches - legitimate for API client methods
   "PLR0913", # Too many arguments - legitimate for API client methods
+  "PLR0917", # Too many positional arguments - legitimate for API client methods
   "PLR2004", # Just annoying, not really useful
 ]
 select = ["ALL"]
