@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any
 import aiohttp
 from aiohttp import ClientError
 from aiohttp.hdrs import METH_DELETE, METH_GET, METH_PATCH, METH_POST
-from aioresponses import CallbackResult, aioresponses
+from aiointercept import CallbackResult, aiointercept
 import pytest
 
 from python_open_router import (
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 
 async def test_putting_in_own_session(
-    responses: aioresponses,
+    responses: aiointercept,
 ) -> None:
     """Test putting in own session."""
     responses.get(
@@ -43,7 +43,7 @@ async def test_putting_in_own_session(
 
 
 async def test_creating_own_session(
-    responses: aioresponses,
+    responses: aiointercept,
 ) -> None:
     """Test creating own session."""
     responses.get(
@@ -60,7 +60,7 @@ async def test_creating_own_session(
 
 
 async def test_unexpected_server_response(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
 ) -> None:
     """Test handling unexpected response."""
@@ -75,7 +75,7 @@ async def test_unexpected_server_response(
 
 
 async def test_timeout(
-    responses: aioresponses,
+    responses: aiointercept,
 ) -> None:
     """Test request timeout."""
 
@@ -99,7 +99,7 @@ async def test_timeout(
 
 async def test_client_error(
     client: OpenRouterClient,
-    responses: aioresponses,
+    responses: aiointercept,
 ) -> None:
     """Test client error."""
 
@@ -129,7 +129,7 @@ async def test_client_error(
     ],
 )
 async def test_data_retrieval(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
     snapshot: SnapshotAssertion,
     endpoint: str,
@@ -160,7 +160,7 @@ async def test_data_retrieval(
     ],
 )
 async def test_create_key(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
     snapshot: SnapshotAssertion,
     kwargs: dict[str, Any],
@@ -182,7 +182,7 @@ async def test_create_key(
 
 
 async def test_delete_key(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
 ) -> None:
     """Test deleting a key."""
@@ -203,7 +203,7 @@ async def test_delete_key(
 
 
 async def test_get_key(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -224,7 +224,7 @@ async def test_get_key(
 
 
 async def test_update_key(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_update_key(
 
 
 async def test_get_model(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -271,7 +271,7 @@ async def test_get_model(
 
 
 async def test_count_models(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
 ) -> None:
     """Test counting models."""
@@ -292,7 +292,7 @@ async def test_count_models(
 
 
 async def test_get_models_with_filters(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
 ) -> None:
     """Test getting models with filter parameters."""
@@ -307,11 +307,11 @@ async def test_get_models_with_filters(
         min_price=0.0,
         max_price=10.0,
     )
-    responses.assert_called_once()  # type: ignore[no-untyped-call]
+    responses.assert_called_once()
 
 
 async def test_get_keys_with_filters(
-    responses: aioresponses,
+    responses: aiointercept,
     client: OpenRouterClient,
 ) -> None:
     """Test getting keys with filter parameters."""
@@ -321,4 +321,4 @@ async def test_get_keys_with_filters(
         body=load_fixture("keys.json"),
     )
     await client.get_keys(include_disabled=True, offset=10)
-    responses.assert_called_once()  # type: ignore[no-untyped-call]
+    responses.assert_called_once()
