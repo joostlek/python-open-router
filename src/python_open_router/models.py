@@ -128,6 +128,7 @@ class SupportedParameter(StrEnum):
     SEED = "seed"
     RESPONSE_FORMAT = "response_format"
     STRUCTURED_OUTPUTS = "structured_outputs"
+    PREDICTION = "prediction"
     TOOLS = "tools"
     TOOL_CHOICE = "tool_choice"
     PARALLEL_TOOL_CALLS = "parallel_tool_calls"
