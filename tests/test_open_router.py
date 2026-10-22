@@ -10,12 +10,14 @@ import aiohttp
 from aiohttp import ClientError
 from aiohttp.hdrs import METH_DELETE, METH_GET, METH_PATCH, METH_POST
 from aiointercept import CallbackResult, aiointercept
+import orjson
 import pytest
 
 from python_open_router import (
     OpenRouterClient,
     OpenRouterConnectionError,
     OpenRouterError,
+    ReasoningEffort,
 )
 from tests import load_fixture
 from tests.const import HEADERS, MOCK_URL
@@ -268,6 +270,47 @@ async def test_get_model(
         params=None,
         json=None,
     )
+
+
+async def test_get_model_with_reasoning(
+    responses: aiointercept,
+    client: OpenRouterClient,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test getting a model with reasoning options."""
+    responses.get(
+        f"{MOCK_URL}/model/anthropic/claude-opus-4.6",
+        status=200,
+        body=load_fixture("reasoning_model.json"),
+    )
+    assert await client.get_model("anthropic", "claude-opus-4.6") == snapshot
+
+
+async def test_unsupported_reasoning_effort(
+    responses: aiointercept,
+    client: OpenRouterClient,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Test an unknown reasoning effort is dropped instead of failing."""
+    fixture = orjson.loads(load_fixture("reasoning_model.json"))
+    fixture["data"]["reasoning"]["supported_efforts"].append("extreme")
+    fixture["data"]["reasoning"]["default_effort"] = "extreme"
+    responses.get(
+        f"{MOCK_URL}/model/anthropic/claude-opus-4.6",
+        status=200,
+        body=orjson.dumps(fixture).decode(),
+    )
+    model = await client.get_model("anthropic", "claude-opus-4.6")
+    assert model.reasoning is not None
+    assert model.reasoning.supported_efforts == [
+        ReasoningEffort.MAX,
+        ReasoningEffort.HIGH,
+        ReasoningEffort.MEDIUM,
+        ReasoningEffort.LOW,
+        ReasoningEffort.NONE,
+    ]
+    assert model.reasoning.default_effort is None
+    assert "Unsupported reasoning effort: extreme" in caplog.text
 
 
 async def test_count_models(
