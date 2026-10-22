@@ -14,6 +14,7 @@ import orjson
 import pytest
 
 from python_open_router import (
+    ModelReasoning,
     OpenRouterClient,
     OpenRouterConnectionError,
     OpenRouterError,
@@ -311,6 +312,22 @@ async def test_unsupported_reasoning_effort(
     ]
     assert model.reasoning.default_effort is None
     assert "Unsupported reasoning effort: extreme" in caplog.text
+
+
+@pytest.mark.parametrize(
+    ("reasoning", "efforts"),
+    [
+        ({"mandatory": True}, None),
+        ({"mandatory": True, "supported_efforts": None}, list(ReasoningEffort)),
+    ],
+    ids=["omitted", "null"],
+)
+def test_reasoning_supported_efforts(
+    reasoning: dict[str, Any],
+    efforts: list[ReasoningEffort] | None,
+) -> None:
+    """Test omitted and null supported efforts stay distinct."""
+    assert ModelReasoning.from_dict(reasoning).supported_efforts == efforts
 
 
 async def test_count_models(

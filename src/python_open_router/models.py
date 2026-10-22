@@ -237,6 +237,10 @@ class ModelReasoning(DataClassORJSONMixin):
     def __pre_deserialize__(cls, d: dict[str, Any]) -> dict[str, Any]:
         """Pre deserialize hook."""
         supported = set(ReasoningEffort)
+        if "supported_efforts" in d and d["supported_efforts"] is None:
+            # Null means every effort is accepted, unlike an omitted field,
+            # which means the model has no effort selection.
+            d["supported_efforts"] = list(ReasoningEffort)
         efforts = d.get("supported_efforts")
         default = d.get("default_effort")
         for effort in [*(efforts or []), default]:
