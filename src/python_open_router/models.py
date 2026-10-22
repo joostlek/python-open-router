@@ -158,6 +158,18 @@ class Modality(StrEnum):
     TRANSCRIPTION = "transcription"
 
 
+class ReasoningEffort(StrEnum):
+    """Reasoning effort levels."""
+
+    MAX = "max"
+    XHIGH = "xhigh"
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+    MINIMAL = "minimal"
+    NONE = "none"
+
+
 @dataclass(kw_only=True)
 class ModelArchitecture(DataClassORJSONMixin):
     """Model architecture data."""
@@ -212,6 +224,39 @@ class DefaultParameters(DataClassORJSONMixin):
 
 
 @dataclass(kw_only=True)
+class ModelReasoning(DataClassORJSONMixin):
+    """Model reasoning options."""
+
+    mandatory: bool
+    supported_efforts: list[ReasoningEffort] | None = None
+    default_effort: ReasoningEffort | None = None
+    default_enabled: bool | None = None
+    supports_max_tokens: bool = False
+
+    @classmethod
+    def __pre_deserialize__(cls, d: dict[str, Any]) -> dict[str, Any]:
+        """Pre deserialize hook."""
+        supported = set(ReasoningEffort)
+        if "supported_efforts" in d and d["supported_efforts"] is None:
+            # Null means every effort is accepted, unlike an omitted field,
+            # which means the model has no effort selection.
+            d["supported_efforts"] = list(ReasoningEffort)
+        efforts = d.get("supported_efforts")
+        default = d.get("default_effort")
+        for effort in [*(efforts or []), default]:
+            if effort is not None and effort not in supported:
+                _LOGGER.warning(
+                    "Unsupported reasoning effort: %s. Please report at https://github.com/joostlek/python-open-router/issues.",
+                    effort,
+                )
+        if efforts is not None:
+            d["supported_efforts"] = [e for e in efforts if e in supported]
+        if default not in supported:
+            d["default_effort"] = None
+        return d
+
+
+@dataclass(kw_only=True)
 class PerRequestLimits(DataClassORJSONMixin):
     """Per-request limits."""
 
@@ -247,6 +292,7 @@ class Model(DataClassORJSONMixin):
     supported_voices: list[str] | None = None
     expiration_date: str | None = None
     knowledge_cutoff: str | None = None
+    reasoning: ModelReasoning | None = None
 
     @classmethod
     def __pre_deserialize__(cls, d: dict[str, Any]) -> dict[str, Any]:

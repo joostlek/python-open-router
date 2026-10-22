@@ -18,10 +18,12 @@ from python_open_router.models import (
     Model,
     ModelArchitecture,
     ModelLinks,
+    ModelReasoning,
     ModelResponseWrapper,
     ModelsDataWrapper,
     PerRequestLimits,
     PublicPricing,
+    ReasoningEffort,
     SupportedParameter,
     TopProviderInfo,
 )
@@ -40,6 +42,7 @@ __all__ = [
     "Model",
     "ModelArchitecture",
     "ModelLinks",
+    "ModelReasoning",
     "ModelResponseWrapper",
     "ModelsDataWrapper",
     "OpenRouterAuthenticationError",
@@ -48,6 +51,7 @@ __all__ = [
     "OpenRouterError",
     "PerRequestLimits",
     "PublicPricing",
+    "ReasoningEffort",
     "SupportedParameter",
     "TopProviderInfo",
 ]

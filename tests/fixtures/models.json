@@ -163,7 +163,10 @@
             "supported_voices": null,
             "knowledge_cutoff": null,
             "expiration_date": null,
-            "links": null
+            "links": null,
+            "reasoning": {
+                "mandatory": true
+            }
         },
         {
             "id": "mistralai/voxtral-small-24b-2507",
@@ -277,7 +280,10 @@
             "supported_voices": null,
             "knowledge_cutoff": null,
             "expiration_date": null,
-            "links": null
+            "links": null,
+            "reasoning": {
+                "mandatory": true
+            }
         }
     ]
 }
