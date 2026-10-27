@@ -31,7 +31,7 @@ from python_open_router.models import (
 )
 
 if TYPE_CHECKING:
-    from typing_extensions import Self
+    from typing import Self
 
 
 VERSION = metadata.version(__package__)
@@ -77,7 +77,7 @@ class OpenRouterClient:
                     headers=headers,
                     json=data,
                 )
-        except asyncio.TimeoutError as exception:
+        except TimeoutError as exception:
             msg = "Timeout occurred while connecting to the service"
             raise OpenRouterConnectionError(msg) from exception
         except (
