@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import re
 from typing import TYPE_CHECKING, Any
 
@@ -10,7 +11,6 @@ import aiohttp
 from aiohttp import ClientError
 from aiohttp.hdrs import METH_DELETE, METH_GET, METH_PATCH, METH_POST
 from aiointercept import CallbackResult, aiointercept
-import orjson
 import pytest
 
 from python_open_router import (
@@ -293,13 +293,13 @@ async def test_unsupported_reasoning_effort(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test an unknown reasoning effort is dropped instead of failing."""
-    fixture = orjson.loads(load_fixture("reasoning_model.json"))
+    fixture = json.loads(load_fixture("reasoning_model.json"))
     fixture["data"]["reasoning"]["supported_efforts"].append("extreme")
     fixture["data"]["reasoning"]["default_effort"] = "extreme"
     responses.get(
         f"{MOCK_URL}/model/anthropic/claude-opus-4.6",
         status=200,
-        body=orjson.dumps(fixture).decode(),
+        body=json.dumps(fixture),
     )
     model = await client.get_model("anthropic", "claude-opus-4.6")
     assert model.reasoning is not None
