@@ -151,6 +151,7 @@
         'request': None,
         'web_search': None,
       }),
+      'reasoning': None,
       'supported_parameters': list([
         <SupportedParameter.MAX_TOKENS: 'max_tokens'>,
         <SupportedParameter.STOP: 'stop'>,
@@ -215,6 +216,7 @@
         'request': '0',
         'web_search': '0',
       }),
+      'reasoning': None,
       'supported_parameters': list([
         <SupportedParameter.FREQUENCY_PENALTY: 'frequency_penalty'>,
         <SupportedParameter.LOGIT_BIAS: 'logit_bias'>,
@@ -285,6 +287,13 @@
         'request': '0.018',
         'web_search': '0',
       }),
+      'reasoning': dict({
+        'default_effort': None,
+        'default_enabled': None,
+        'mandatory': True,
+        'supported_efforts': None,
+        'supports_max_tokens': False,
+      }),
       'supported_parameters': list([
         <SupportedParameter.FREQUENCY_PENALTY: 'frequency_penalty'>,
         <SupportedParameter.INCLUDE_REASONING: 'include_reasoning'>,
@@ -353,6 +362,7 @@
         'request': '0',
         'web_search': '0',
       }),
+      'reasoning': None,
       'supported_parameters': list([
         <SupportedParameter.FREQUENCY_PENALTY: 'frequency_penalty'>,
         <SupportedParameter.MAX_TOKENS: 'max_tokens'>,
@@ -420,6 +430,13 @@
         'prompt': '0.000000075',
         'request': '0',
         'web_search': '0',
+      }),
+      'reasoning': dict({
+        'default_effort': None,
+        'default_enabled': None,
+        'mandatory': True,
+        'supported_efforts': None,
+        'supports_max_tokens': False,
       }),
       'supported_parameters': list([
         <SupportedParameter.INCLUDE_REASONING: 'include_reasoning'>,
@@ -519,6 +536,7 @@
       'request': None,
       'web_search': None,
     }),
+    'reasoning': None,
     'supported_parameters': list([
       <SupportedParameter.MAX_TOKENS: 'max_tokens'>,
       <SupportedParameter.STOP: 'stop'>,
@@ -532,6 +550,96 @@
       'context_length': 1000000,
       'is_moderated': True,
       'max_completion_tokens': 32000,
+    }),
+  })
+# ---
+# name: test_get_model_with_reasoning
+  dict({
+    'architecture': dict({
+      'input_modalities': list([
+        <Modality.TEXT: 'text'>,
+        <Modality.IMAGE: 'image'>,
+        <Modality.FILE: 'file'>,
+      ]),
+      'instruct_type': None,
+      'modality': 'text+image+file->text',
+      'output_modalities': list([
+        <Modality.TEXT: 'text'>,
+      ]),
+      'tokenizer': 'Claude',
+    }),
+    'canonical_slug': 'anthropic/claude-4.6-opus-20260205',
+    'context_length': 1000000,
+    'created': 1770219050,
+    'default_parameters': dict({
+      'frequency_penalty': None,
+      'presence_penalty': None,
+      'repetition_penalty': None,
+      'temperature': None,
+      'top_k': None,
+      'top_p': None,
+    }),
+    'description': 'Opus 4.6 is Anthropic’s strongest model for coding and long-running professional tasks. It is built for agents that operate across entire workflows rather than single prompts, making it especially effective...',
+    'expiration_date': None,
+    'hugging_face_id': None,
+    'id': 'anthropic/claude-opus-4.6',
+    'knowledge_cutoff': None,
+    'links': dict({
+      'details': '/api/v1/models/anthropic/claude-4.6-opus-20260205/endpoints',
+    }),
+    'name': 'Anthropic: Claude Opus 4.6',
+    'per_request_limits': None,
+    'pricing': dict({
+      'audio': None,
+      'audio_output': None,
+      'completion': '0.000025',
+      'discount': None,
+      'image': None,
+      'image_output': None,
+      'image_token': None,
+      'input_audio_cache': None,
+      'input_cache_read': '0.0000005',
+      'input_cache_write': '0.00000625',
+      'input_cache_write_1h': '0.00001',
+      'internal_reasoning': None,
+      'prompt': '0.000005',
+      'request': None,
+      'web_search': '0.01',
+    }),
+    'reasoning': dict({
+      'default_effort': <ReasoningEffort.HIGH: 'high'>,
+      'default_enabled': False,
+      'mandatory': False,
+      'supported_efforts': list([
+        <ReasoningEffort.MAX: 'max'>,
+        <ReasoningEffort.HIGH: 'high'>,
+        <ReasoningEffort.MEDIUM: 'medium'>,
+        <ReasoningEffort.LOW: 'low'>,
+        <ReasoningEffort.NONE: 'none'>,
+      ]),
+      'supports_max_tokens': True,
+    }),
+    'supported_parameters': list([
+      <SupportedParameter.INCLUDE_REASONING: 'include_reasoning'>,
+      <SupportedParameter.MAX_COMPLETION_TOKENS: 'max_completion_tokens'>,
+      <SupportedParameter.MAX_TOKENS: 'max_tokens'>,
+      <SupportedParameter.REASONING: 'reasoning'>,
+      <SupportedParameter.REASONING_EFFORT: 'reasoning_effort'>,
+      <SupportedParameter.RESPONSE_FORMAT: 'response_format'>,
+      <SupportedParameter.STOP: 'stop'>,
+      <SupportedParameter.STRUCTURED_OUTPUTS: 'structured_outputs'>,
+      <SupportedParameter.TEMPERATURE: 'temperature'>,
+      <SupportedParameter.TOOL_CHOICE: 'tool_choice'>,
+      <SupportedParameter.TOOLS: 'tools'>,
+      <SupportedParameter.TOP_K: 'top_k'>,
+      <SupportedParameter.TOP_P: 'top_p'>,
+      <SupportedParameter.VERBOSITY: 'verbosity'>,
+    ]),
+    'supported_voices': None,
+    'top_provider': dict({
+      'context_length': 1000000,
+      'is_moderated': True,
+      'max_completion_tokens': 128000,
     }),
   })
 # ---
